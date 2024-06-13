@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+  background-color: #E24672;
+}
+    </style>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 200px;">
+        <h1>Welcome to World Clocks!</h1>
+        <p>Please enter your name <br>or <br>social securiry number:</p>
+        <input type="text" id="username" placeholder="Your name">
+        <button onclick="submitName()">Submit</button>
+    </div>
+    <script>
+        function submitName() {
+            const name = document.getElementById('username').value;
+            if (name) {
+                localStorage.setItem('username', name);
+                window.location.href = 'clocks.html';
+            } else {
+                alert('Please enter your name.');
+            }
+        }
+    </script>
+</body>
+</html>

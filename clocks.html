@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Time Zones</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="eliNewsketch.js" defer></script>
+    <style>
+        body {
+  background-color: #E24672;
+}
+    </style>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 50px;">
+        <h1 id="greeting"></h1>
+        <div id="canvas-container"></div>
+    </div>
+    <script>
+        window.onload = function() {
+            const name = localStorage.getItem('username');
+            if (name) {
+                document.getElementById('greeting').innerText = 'Hello, ' + name + '!' + '\n Hover over any clock for a fun fact.' + '\nMax slider to the right to vanish time.';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
