@@ -1,5 +1,3 @@
-// Group project
-
 let clocks = [];
 let cosOffset = 0;
 let sinOffset = 0;
@@ -23,11 +21,6 @@ function setup() {
     textAlign(CENTER, CENTER);
     noSmooth();
 
-    // Create a slider for controlling the gradients and center it at the bottom
-    gradientSlider = createSlider(0, 255, 0); // Start at 0
-    gradientSlider.size(400); // Make the slider longer
-    gradientSlider.position((width - gradientSlider.width) / 1.1, height - 880); // Center the slider
-
     let names = [
         'Johannesburg, South Africa-SAST',
         'Muscat, Oman-GST',
@@ -44,14 +37,14 @@ function setup() {
 
     let additionalTexts = [
         'The largest city in South Africa.',
-        'The capital of Oman.',
-        'The capital of India.',
-        'The capital of China.',
-        'Known for its film industry.',
+        'Known for its stunning coastal scenery.',
+        'Home to the world’s tallest brick minaret.',
+        'One of the world’s oldest cities.',
+        'Founded by the Spanish in 1781.',
         'Famous for its architecture.',
-        'The highest capital city in the world.',
-        'The capital of Greenland.',
-        'The capital of the United Kingdom.'
+        'Highest capital city in the world.',
+        'One of the world’s northernmost capitals.',
+        'Home to Big Ben clock tower.'
     ];
 
     for (let i = 0; i < 9; i++) {
@@ -71,11 +64,9 @@ function draw() {
     fill('white');
     text('World Time Zones', width / 2, 50);
 
-    let gradientValue = gradientSlider.value();
-
     for (let clock of clocks) {
         clock.update();
-        clock.display(gradientValue);
+        clock.display();
         if (clock.isMouseOver()) {
             clock.displayImageAndText();
         }
@@ -98,10 +89,9 @@ class Clock {
         // Update clock logic if needed
     }
 
-    display(gradientValue) {
-        // Use the gradient value for the fill color
-        let gradientColor = lerpColor(color(0), color(255), gradientValue / 255);
-        fill(gradientColor);
+    display() {
+        // Set fill color to black for the clock
+        fill(0);
         noStroke();
         ellipse(this.x, this.y, 200, 200);
 
@@ -118,7 +108,7 @@ class Clock {
 
         noStroke();
         fill('white');
-        textSize(18);
+        textSize(15);
         text(this.name, this.x, this.y - -150);
 
         let s = second();
@@ -172,18 +162,40 @@ class Clock {
         noFill();
         stroke(255);
         strokeWeight(4);
+        image(this.img, imgX, imgY, imgWidth, imgHeight);
 
-        image(this.img, imgX, imgY, imgWidth, imgHeight); // Adjust position and size as needed
-
-        // Draw the white background box with rounded corners and a subtle shadow
+        // Draw the white background box with rounded corners
         fill('white');
         noStroke();
         rectMode(CENTER);
-        rect(this.x, textY, 320, 40, 20);
+        rect(this.x, textY, 320, 60, 20);
 
-        // Display the additional text in black
+        // Display the additional text with word wrapping
         fill('black');
-        textSize(20);
-        text(this.additionalText, this.x, textY);
+        textSize(18);
+        textAlign(CENTER, CENTER);
+
+        let wrappedText = this.wrapText(this.additionalText, 280); // Wrap the text to fit within the rectangle
+        text(wrappedText, this.x, textY); // Display the wrapped text
+    }
+
+    // Helper function to wrap text
+    wrapText(text, maxWidth) {
+        let words = text.split(' ');
+        let wrappedText = '';
+        let line = '';
+
+        for (let i = 0; i < words.length; i++) {
+            let testLine = line + words[i] + ' ';
+            let testWidth = textWidth(testLine);
+            if (testWidth > maxWidth && i > 0) {
+                wrappedText += line + '\n';
+                line = words[i] + ' ';
+            } else {
+                line = testLine;
+            }
+        }
+        wrappedText += line;
+        return wrappedText;
     }
 }
